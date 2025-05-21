@@ -1,0 +1,106 @@
+IAM permission:
+
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": [
+				"s3:GetObject*",
+				"s3:PutObject*"
+			],
+			"Resource": "*"
+		}
+	]
+}
+
+
+____________________________________________________
+
+Trust policy:
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "arn:aws:iam::[ACCOUNT_ID]:user/demo1"
+                ]
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}
+
+____________________________________________________
+
+
+Session Policy:
+{
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Action": ["s3:PutObject", "s3:GetObject"],
+            "Resource": "arn:aws:s3:%region:%userID:accesspoint/%accesspointName/object/%clientId/*"
+          }
+        ]
+}
+____________________________________________________
+
+Bucket policy:
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::[ACCOUNT_ID]:role/tempdownload"
+            },
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:::[BUCKET_NAME]//*"
+        },
+        {
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "*",
+            "Resource": [
+                "arn:aws:s3:::[BUCKET_NAME]/",
+                "arn:aws:s3:::[BUCKET_NAME]//*"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "s3:DataAccessPointAccount": "[ACCOUNT_ID]"
+                }
+            }
+        }
+    ]
+}
+
+____________________________________________________
+
+Accesspoint policy:
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowObjectAccessThroughAccessPoint",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::[ACCOUNT_ID]:role/tempdownload"
+            },
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:eu-north-1:[ACCOUNT_ID]:accesspoint/demoaccesspoint10/object/*"
+        }
+    ]
+}

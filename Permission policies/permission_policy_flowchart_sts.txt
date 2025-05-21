@@ -1,0 +1,48 @@
+       ┌────────────────────┐
+       │      STS           │
+       └────────────────────┘
+
+         [IAM Role]
+  (Defines what resources can be accessed/used)
+
+               |
+               v
+
+  [Trust Relationship]
+  (Specifies who can assume the role)
+
+               |
+               v
+
+     [STS Session Policy]
+  (further restricts access per session, folder-prefix, duration, etc.)
+
+               |
+               v
+
+       ┌────────────────────┐
+       │ STS + Access Point │
+       └────────────────────┘
+               |
+               v
+
+        [Bucket Policy]
+(Delegates access control to the Access Point)
+
+               |
+               v
+
+     [Access Point Policy]
+(Specifies finer-grained controls, like folder-prefixes;
+helps scale permissions across users/resources)
+
+limitations STS:
+* 20kb bucket policy
+
+
+Accesspoint:
+(https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-restrictions-limitations-naming-rules.html)
+* 10 000 accesspoints per account 
+* 20kb policy per accesspoints
+* Flexible and isolated accesspoint policy for each tenant
+

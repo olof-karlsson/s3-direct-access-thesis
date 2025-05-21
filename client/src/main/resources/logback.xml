@@ -1,0 +1,18 @@
+<!-- src/main/resources/logback.xml -->
+<configuration>
+
+    <!-- Suppress AWS SDK and Netty DEBUG logs -->
+    <logger name="software.amazon.awssdk" level="WARN"/>
+    <logger name="io.netty" level="WARN"/>
+
+    <!-- Root logger -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+</configuration>
